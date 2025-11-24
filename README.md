@@ -51,21 +51,6 @@ OpenAlternative is an GPL-3.0-licensed open source project with its ongoing deve
 
 If you'd like to support the project, you could also consider [buying our Next.js boilerplate](https://dirstarter.com) which is the foundation of creating directory websites, just like this one.
 
-## Services
-
-OpenAlternative uses the following third-party services:
-
-- Database: [Neon](https://neon.tech)
-- Analytics: [Plausible](https://plausible.io), [PostHog](https://posthog.com)
-- Newsletter: [Beehiiv](https://go.openalternative.co/beehiiv)
-- Scraping: [Firecrawl](https://go.openalternative.co/firecrawl)
-- Background Jobs: [Inngest](https://inngest.com)
-- File Storage: [AWS S3](https://aws.amazon.com/s3)
-- Payments: [Stripe](https://stripe.com)
-- Screenshots: [ScreenshotOne](https://go.openalternative.co/screenshotone)
-
-Make sure to set up accounts with these services and add the necessary environment variables to your `.env` file.
-
 ## Project Structure
 
 OpenAlternative is built in Next.js App Router. The project structure is organized as follows:
