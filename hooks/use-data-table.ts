@@ -2,6 +2,7 @@
 
 import {
   type ColumnFiltersState,
+  type ExpandedState,
   type PaginationState,
   type RowSelectionState,
   type SortingState,
@@ -10,6 +11,7 @@ import {
   type Updater,
   type VisibilityState,
   getCoreRowModel,
+  getExpandedRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
@@ -132,6 +134,7 @@ type UseDataTableProps<TData> = Omit<
     initialState?: Omit<Partial<TableState>, "sorting"> & {
       // Extend to make the sorting id typesafe
       sorting?: ExtendedSortingState<TData>
+      expanded?: ExpandedState
     }
   }
 
@@ -168,6 +171,7 @@ export function useDataTable<TData>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     initialState?.columnVisibility ?? {},
   )
+  const [expanded, setExpanded] = useState<ExpandedState>(initialState?.expanded ?? {})
 
   const [page, setPage] = useQueryState(
     "page",
@@ -304,6 +308,7 @@ export function useDataTable<TData>({
       columnVisibility,
       rowSelection,
       columnFilters: enableAdvancedFilter ? [] : columnFilters,
+      expanded,
     },
     defaultColumn: {
       size: 0,
@@ -315,12 +320,14 @@ export function useDataTable<TData>({
     onSortingChange,
     onColumnFiltersChange,
     onColumnVisibilityChange: setColumnVisibility,
+    onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: enableAdvancedFilter ? undefined : getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: enableAdvancedFilter ? undefined : getFacetedRowModel(),
     getFacetedUniqueValues: enableAdvancedFilter ? undefined : getFacetedUniqueValues(),
+    getExpandedRowModel: getExpandedRowModel(),
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,

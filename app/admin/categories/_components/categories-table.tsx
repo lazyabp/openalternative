@@ -39,17 +39,37 @@ export function CategoriesTable({ categoriesPromise }: CategoriesTableProps) {
     },
   ]
 
+  const data = useMemo(() => {
+    const nodes = categories.map(c => ({ ...c, subRows: [] as typeof categories }))
+    const nodeMap = new Map(nodes.map(n => [n.id, n]))
+    const tree: typeof nodes = []
+
+    for (const node of nodes) {
+      if (node.parentId) {
+        const parent = nodeMap.get(node.parentId)
+        if (parent) {
+          parent.subRows.push(node)
+        }
+      } else {
+        tree.push(node)
+      }
+    }
+    return tree
+  }, [categories])
+
   const { table } = useDataTable({
-    data: categories,
+    data,
     columns,
     pageCount,
     filterFields,
     shallow: false,
     clearOnDefault: true,
+    getSubRows: row => row.subRows,
     initialState: {
       pagination: { pageIndex: 0, pageSize: perPage },
       sorting: sort,
       columnPinning: { right: ["actions"] },
+      expanded: true,
     },
     getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
   })

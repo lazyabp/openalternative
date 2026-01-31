@@ -9,6 +9,9 @@ import { Note } from "~/components/common/note"
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header"
 import { DataTableLink } from "~/components/data-table/data-table-link"
 
+import { Button } from "~/components/common/button"
+import { Icon } from "~/components/common/icon"
+
 export const getColumns = (): ColumnDef<Category>[] => {
   return [
     {
@@ -42,7 +45,24 @@ export const getColumns = (): ColumnDef<Category>[] => {
       size: 160,
       header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
       cell: ({ row }) => (
-        <DataTableLink href={`/admin/categories/${row.original.slug}`} title={row.original.name} />
+        <div
+          className="flex items-center gap-2"
+          style={{ paddingLeft: `${row.depth * 1.5}rem` }}
+        >
+          {row.getCanExpand() ? (
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={e => {
+                e.stopPropagation()
+                row.toggleExpanded()
+              }}
+            >
+              <Icon name={row.getIsExpanded() ? "lucide/chevron-down" : "lucide/chevron-right"} />
+            </Button>
+          ) : null}
+          <DataTableLink href={`/admin/categories/${row.original.slug}`} title={row.original.name} />
+        </div>
       ),
     },
     {
