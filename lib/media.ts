@@ -35,8 +35,8 @@ export const uploadToS3Storage = async (file: Buffer, key: string) => {
     throw new Error("Failed to upload")
   }
 
-  if (env.S3_BASE_URL) {
-    return `${env.S3_BASE_URL}/${result.Key}?v=${Date.now()}`
+  if (env.S3_PUBLIC_URL) {
+    return `${env.S3_PUBLIC_URL}/${result.Key}?v=${Date.now()}`
   }
 
   return `${endpoint}/${key}?v=${Date.now()}`

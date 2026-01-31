@@ -35,7 +35,6 @@ export const env = createEnv({
     S3_SECRET_ACCESS_KEY: z.string().min(1),
     S3_PUBLIC_URL: z.string().optional(),
     S3_ENDPOINT: z.string().optional(),
-    S3_BASE_URL: z.string().optional(),
     STRIPE_SECRET_KEY: z.string().min(1),
     STRIPE_WEBHOOK_SECRET: z.string().min(1),
     GITHUB_TOKEN: z.string().min(1),
