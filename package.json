@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "email": "cp .env ../../node_modules/react-email/dist/preview && email dev",
-    "dev": "next dev -p 5173 --turbopack",
-    "start": "next start -p 5173",
+    "dev": "next dev -p 3000 --turbopack",
+    "start": "next start -p 3000",
     "build": "next build --turbopack",
     "lint": "bun biome check --write .",
     "format": "bun biome format --write .",

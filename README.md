@@ -101,7 +101,7 @@ All commands are run from the root of the project, from a terminal:
 | Command           | Action                                           |
 | :---------------- | :----------------------------------------------- |
 | `bun install`     | Installs dependencies                            |
-| `bun run dev`     | Starts local dev server at `localhost:5173`      |
+| `bun run dev`     | Starts local dev server at `localhost:3000`      |
 | `bun run build`   | Build production application                     |
 | `bun run start`   | Preview production build locally                 |
 | `bun run lint`    | Run linter                                       |

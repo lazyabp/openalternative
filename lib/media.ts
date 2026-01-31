@@ -14,7 +14,7 @@ import { tryCatch } from "~/utils/helpers"
  * @returns The S3 location of the uploaded file.
  */
 export const uploadToS3Storage = async (file: Buffer, key: string) => {
-  const endpoint = env.S3_PUBLIC_URL ?? `https://${env.S3_BUCKET}.s3.${env.S3_REGION}.amazonaws.com`
+  const endpoint = env.S3_ENDPOINT ?? `https://${env.S3_BUCKET}.s3.${env.S3_REGION}.amazonaws.com`
 
   const upload = new Upload({
     client: s3Client,
@@ -33,6 +33,10 @@ export const uploadToS3Storage = async (file: Buffer, key: string) => {
 
   if (!result.Key) {
     throw new Error("Failed to upload")
+  }
+
+  if (env.S3_BASE_URL) {
+    return `${env.S3_BASE_URL}/${result.Key}?v=${Date.now()}`
   }
 
   return `${endpoint}/${key}?v=${Date.now()}`
