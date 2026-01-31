@@ -87,24 +87,25 @@ export function CategoryForm({
     enabled: !category,
   })
 
-  // Group available categories by parent
-  const groupedCategories = useMemo(() => {
-    return parents.reduce(
-      (acc, category) => {
-        // Skip categories with no parent or with path that's too deep
-        if (!category.parentId || category.fullPath.split("/").length >= 3) {
-          return acc
-        }
+  // Build a category tree for the select
+  const categoryTree = useMemo(() => {
+    const categories = parents.map(p => ({ ...p, children: [] as typeof parents }))
+    const categoryMap = new Map(categories.map(c => [c.id, c]))
+    const tree: typeof categories = []
 
-        if (!acc[category.parentId]) {
-          acc[category.parentId] = []
+    for (const category of categories) {
+      if (category.parentId) {
+        const parent = categoryMap.get(category.parentId)
+        // prevent deep nesting in the select
+        if (parent && category.fullPath.split("/").length < 3) {
+          parent.children.push(category)
         }
+      } else {
+        tree.push(category)
+      }
+    }
 
-        acc[category.parentId].push(category)
-        return acc
-      },
-      {} as Record<string, typeof parents>,
-    )
+    return tree
   }, [parents])
 
   // Upsert category
@@ -233,15 +234,15 @@ export function CategoryForm({
                   </SelectTrigger>
 
                   <SelectContent>
-                    {Object.entries(groupedCategories).map(([parentId, categories]) => (
-                      <SelectGroup key={parentId} className="not-first:mt-2">
-                        <SelectItem value={parentId} className="font-semibold text-foreground">
-                          {parents.find(c => c.id === parentId)?.name}
+                    {categoryTree.map(parent => (
+                      <SelectGroup key={parent.id} className="not-first:mt-2">
+                        <SelectItem value={parent.id} className="font-semibold text-foreground">
+                          {parent.name}
                         </SelectItem>
 
-                        {categories.map(parent => (
-                          <SelectItem key={parent.id} value={parent.id}>
-                            – {parent.name}
+                        {parent.children.map(child => (
+                          <SelectItem key={child.id} value={child.id}>
+                            – {child.name}
                           </SelectItem>
                         ))}
                       </SelectGroup>
